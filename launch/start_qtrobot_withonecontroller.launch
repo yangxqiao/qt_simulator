@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <include file="$(find qt_simulator)/launch/spawn_qtrobot_with_onecontroller.launch"/>
+    <include file="$(find qt_simulator)/launch/qtrobot_onejoint_control.launch"/>
+</launch>

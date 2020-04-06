@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+        <param name="robot_description" command="cat $(find qt_simulator)/urdf/qtrobot.urdf" />
+
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+
+        <node name="state_publisher" pkg="qt_simulator" type="state_publisher" />
+</launch>

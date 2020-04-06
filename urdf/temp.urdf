@@ -1,0 +1,365 @@
+<?xml version="1.0"?>
+<robot name="qtrobot">
+
+  <material name="white">
+    <color rgba="1 1 1 1"/>
+  </material>
+  <material name="red">
+    <color rgba="0.8 0 0 1"/>
+  </material>
+
+  <link name="base_link">
+    <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.18" />
+        <inertia ixx="0.0032235" ixy="0.0" ixz="0.0" iyy="0.0032235" iyz="0.0" izz="0.0009"/>
+    </inertial>
+
+    <collision>
+      <geometry>
+        <!-- <box size="0.10 0.15 0.43"/> -->
+        <cylinder length="0.43" radius="0.10"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0.1685"/>
+    </collision>
+
+    <visual>
+      <geometry>
+        <!-- <box size="0.10 0.15 0.43"/> -->
+        <cylinder length="0.43" radius="0.10"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0.1685"/>
+      <material name="white"/>
+    </visual>
+  </link>
+
+  <gazebo reference="base_link">
+      <kp>100000.0</kp>
+      <kd>100000.0</kd>
+      <mu1>10.0</mu1>
+      <mu2>10.0</mu2>
+      <material>Gazebo/White</material>
+  </gazebo>
+
+ <!-- Head -->
+  <link name="HeadYaw">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.18" />
+      <inertia ixx="0.0032235" ixy="0.0" ixz="0.0" iyy="0.0032235" iyz="0.0" izz="0.0009"/>
+    </inertial>
+
+    <visual>
+      <geometry>
+        <cylinder length="0.04" radius="0.02"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="white"/>
+    </visual>
+  </link>
+
+  <gazebo reference="HeadYaw">
+      <kp>100000.0</kp>
+      <kd>100000.0</kd>
+      <mu1>10.0</mu1>
+      <mu2>10.0</mu2>
+      <material>Gazebo/White</material>
+  </gazebo>
+
+  <link name="HeadPitch">
+    <inertial>
+      <origin rpy="1.5708 0 0" xyz="0 0 0.06"/>
+      <mass value="0.18" />
+      <inertia ixx="0.0032235" ixy="0.0" ixz="0.0" iyy="0.0032235" iyz="0.0" izz="0.0009"/>
+    </inertial>
+
+    <visual>
+      <geometry>
+        <!-- <cylinder length="0.04" radius="0.02"/> -->
+        <sphere radius="0.15"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="0 0 0.06"/>
+      <material name="white"/>
+    </visual>
+  </link>
+
+  <gazebo reference="HeadPitch">
+    <kp>100000.0</kp>
+    <kd>100000.0</kd>
+    <mu1>10.0</mu1>
+    <mu2>10.0</mu2>
+    <material>Gazebo/White</material>
+  </gazebo>
+
+  <joint name="HeadYaw" type="revolute">
+    <parent link="base_link"/>
+    <child link="HeadYaw"/>
+    <origin rpy="0 0 0" xyz="0 0 0.338"/>
+    <axis xyz="0 0 1"/>
+<!--    <limit effort="1000" lower="-1.0472" upper="1.0472" velocity="100"/>-->
+  </joint>
+
+  <joint name="HeadPitch" type="revolute">
+    <parent link="HeadYaw"/>
+    <child link="HeadPitch"/>
+    <origin rpy="0 0 0" xyz="0 0 0.0962"/>
+    <axis xyz="0 1 0"/>
+<!--    <limit effort="1000" lower="-0.261799" upper="0.436332" velocity="30"/>-->
+  </joint>
+
+
+  <!-- Right Arm -->
+  <link name="RightShoulderPitch">
+    <inertial>
+      <origin rpy="1.5708 0 0" xyz="0 0.03 0"/>
+      <mass value="0.001" />
+      <inertia ixx="2.70833333333e-08" ixy="0.0" ixz="0.0" iyy="2.70833333333e-08" iyz="0.0" izz="5e-08"/>
+    </inertial>
+
+    <visual>
+      <geometry>
+        <cylinder length="0.05" radius="0.03"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="0 0.03 0"/>
+      <material name="white"/>
+    </visual>
+  </link>
+
+  <gazebo reference="RightShoulderPitch">
+    <kp>100000.0</kp>
+    <kd>100000.0</kd>
+    <mu1>10.0</mu1>
+    <mu2>10.0</mu2>
+    <material>Gazebo/White</material>
+  </gazebo>
+
+  <link name="RightShoulderRoll">
+    <inertial>
+      <origin rpy="1.5708 0 0" xyz="0 0.03 0"/>
+      <mass value="0.001" />
+      <inertia ixx="2.70833333333e-08" ixy="0.0" ixz="0.0" iyy="2.70833333333e-08" iyz="0.0" izz="5e-08"/>
+    </inertial>
+
+    <visual>
+      <geometry>
+        <cylinder length="0.1" radius="0.03"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="0 0.03 0"/>
+      <material name="white"/>
+    </visual>
+  </link>
+
+  <gazebo reference="RightShoulderRoll">
+    <kp>100000.0</kp>
+    <kd>100000.0</kd>
+    <mu1>10.0</mu1>
+    <mu2>10.0</mu2>
+    <material>Gazebo/White</material>
+  </gazebo>
+
+  <link name="RightElbowRoll">
+    <inertial>
+      <origin rpy="0 1.5708 0" xyz="0 0 0"/>
+      <mass value="0.001" />
+      <inertia ixx="2.70833333333e-08" ixy="0.0" ixz="0.0" iyy="2.70833333333e-08" iyz="0.0" izz="5e-08"/>
+    </inertial>
+
+    <visual>
+      <geometry>
+        <cylinder length="0.04" radius="0.02"/>
+      </geometry>
+      <origin rpy="0 1.5708 0" xyz="0 0 0"/>
+      <material name="white"/>
+    </visual>
+  </link>
+
+  <gazebo reference="RightElbowRoll">
+    <kp>100000.0</kp>
+    <kd>100000.0</kd>
+    <mu1>10.0</mu1>
+    <mu2>10.0</mu2>
+    <material>Gazebo/White</material>
+  </gazebo>
+
+  <link name="RightHand">
+    <inertial>
+      <origin rpy="0 1.5708 0" xyz="-0.1 0 0"/>
+      <mass value="0.001" />
+      <inertia ixx="2.70833333333e-08" ixy="0.0" ixz="0.0" iyy="2.70833333333e-08" iyz="0.0" izz="5e-08"/>
+    </inertial>
+
+    <visual>
+      <geometry>
+       <!--  <sphere radius="0.02"/> -->
+       <cylinder length="0.2" radius="0.03"/>
+      </geometry>
+      <origin rpy="0 1.5708 0" xyz="-0.1 0 0"/>
+    </visual>
+  </link>
+
+  <gazebo reference="RightHand">
+    <kp>100000.0</kp>
+    <kd>100000.0</kd>
+    <mu1>10.0</mu1>
+    <mu2>10.0</mu2>
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="RightShoulderPitch" type="revolute">
+    <parent link="base_link"/>
+    <child link="RightShoulderPitch"/>
+    <origin rpy="3.14159 0 0" xyz="0 -0.08 0.396"/>
+    <axis xyz="0 1 0"/>
+<!--    <limit effort="1000" lower="-2.44346" upper="2.44346" velocity="100"/>-->
+  </joint>
+
+  <joint name="RightShoulderRoll" type="revolute">
+    <parent link="RightShoulderPitch"/>
+    <child link="RightShoulderRoll"/>
+    <origin rpy="0 -1.5708 0" xyz="0 0.0445 0"/>
+    <axis xyz="1 0 0"/>
+<!--    <limit effort="1000" lower="-1.309" upper="0.122173" velocity="100"/>-->
+  </joint>
+
+  <joint name="RightElbowRoll" type="revolute">
+    <parent link="RightShoulderRoll"/>
+    <child link="RightElbowRoll"/>
+    <origin rpy="0 0 0" xyz="0 0.07708 0"/> -->
+    <axis xyz="1 0 0"/>
+<!--    <limit effort="1000" lower="-1.5708" upper="-0.122173" velocity="100"/>-->
+  </joint>
+
+  <joint name="RightHand" type="fixed">
+    <parent link="RightElbowRoll"/>
+    <child link="RightHand"/>
+    <origin rpy="-1.5708 0 1.5708" xyz="0 0.184 0"/>
+  </joint>
+
+ <!-- Left Arm -->
+  <link name="LeftShoulderPitch">
+    <inertial>
+      <origin rpy="1.5708 0 0" xyz="0 0.03 0"/>
+      <mass value="0.001" />
+      <inertia ixx="2.70833333333e-08" ixy="0.0" ixz="0.0" iyy="2.70833333333e-08" iyz="0.0" izz="5e-08"/>
+    </inertial>
+
+    <visual>
+      <geometry>
+        <cylinder length="0.05" radius="0.03"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="0 0.03 0"/>
+      <material name="white"/>
+    </visual>
+  </link>
+
+  <gazebo reference="LeftShoulderPitch">
+    <kp>100000.0</kp>
+    <kd>100000.0</kd>
+    <mu1>10.0</mu1>
+    <mu2>10.0</mu2>
+    <material>Gazebo/White</material>
+  </gazebo>
+
+  <link name="LeftShoulderRoll">
+    <inertial>
+      <origin rpy="1.5708 0 0" xyz="0 0.03 0"/>
+      <mass value="0.001" />
+      <inertia ixx="2.70833333333e-08" ixy="0.0" ixz="0.0" iyy="2.70833333333e-08" iyz="0.0" izz="5e-08"/>
+    </inertial>
+
+    <visual>
+      <geometry>
+        <cylinder length="0.1" radius="0.03"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="0 0.03 0"/>
+      <material name="white"/>
+    </visual>
+  </link>
+
+  <gazebo reference="LeftShoulderRoll">
+    <kp>100000.0</kp>
+    <kd>100000.0</kd>
+    <mu1>10.0</mu1>
+    <mu2>10.0</mu2>
+    <material>Gazebo/White</material>
+  </gazebo>
+
+  <link name="LeftElbowRoll">
+    <inertial>
+      <origin rpy="0 1.5708 0" xyz="0 0 0"/>
+      <mass value="0.001" />
+      <inertia ixx="2.70833333333e-08" ixy="0.0" ixz="0.0" iyy="2.70833333333e-08" iyz="0.0" izz="5e-08"/>
+    </inertial>
+
+    <visual>
+      <geometry>
+        <cylinder length="0.04" radius="0.02"/>
+      </geometry>
+      <origin rpy="0 1.5708 0" xyz="0 0 0"/>
+      <material name="white"/>
+    </visual>
+  </link>
+
+  <gazebo reference="LeftElbowRoll">
+    <kp>100000.0</kp>
+    <kd>100000.0</kd>
+    <mu1>10.0</mu1>
+    <mu2>10.0</mu2>
+    <material>Gazebo/White</material>
+  </gazebo>
+
+  <link name="LeftHand">
+    <inertial>
+      <origin rpy="0 1.5708 0" xyz="-0.1 0 0"/>
+      <mass value="0.001" />
+      <inertia ixx="2.70833333333e-08" ixy="0.0" ixz="0.0" iyy="2.70833333333e-08" iyz="0.0" izz="5e-08"/>
+    </inertial>
+
+    <visual>
+      <geometry>
+       <!--  <sphere radius="0.02"/> -->
+       <cylinder length="0.2" radius="0.03"/>
+      </geometry>
+      <origin rpy="0 1.5708 0" xyz="-0.1 0 0"/>
+    </visual>
+  </link>
+
+  <gazebo reference="LeftHand">
+    <kp>100000.0</kp>
+    <kd>100000.0</kd>
+    <mu1>10.0</mu1>
+    <mu2>10.0</mu2>
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <joint name="LeftShoulderPitch" type="revolute">
+    <parent link="base_link"/>
+    <child link="LeftShoulderPitch"/>
+    <origin rpy="0 0 0" xyz="0 0.08 0.396"/> -->
+    <axis xyz="0 1 0"/>
+<!--    <limit effort="1000" lower="-2.44346" upper="2.44346" velocity="100"/>-->
+  </joint>
+
+  <joint name="LeftShoulderRoll" type="revolute">
+    <parent link="LeftShoulderPitch"/>
+    <child link="LeftShoulderRoll"/>
+    <origin rpy="0 -1.5708 0" xyz="0 0.0445 0"/>
+    <axis xyz="1 0 0"/>
+<!--    <limit effort="1000" lower="-1.309" upper="0.122173" velocity="100"/>-->
+  </joint>
+
+  <joint name="LeftElbowRoll" type="revolute">
+    <parent link="LeftShoulderRoll"/>
+    <child link="LeftElbowRoll"/>
+    <origin rpy="0 0 0" xyz="0 0.07708 0"/>
+    <axis xyz="1 0 0"/>
+<!--    <limit effort="1000" lower="-1.5708" upper="-0.122173" velocity="100"/>-->
+  </joint>
+
+  <joint name="LeftHand" type="fixed">
+    <parent link="LeftElbowRoll"/>
+    <child link="LeftHand"/>
+    <origin rpy="1.5708 0 1.5708" xyz="0 0.184 0"/>
+  </joint>
+
+</robot>
