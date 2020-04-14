@@ -129,6 +129,15 @@
       </plugin>
   </gazebo>
 
+  <gazebo>
+    <static>false</static>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/mugator_manip</robotNamespace>
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+      <legacyModeNS>true</legacyModeNS>
+    </plugin>
+  </gazebo>
+
   <!-- pick HeadYaw for moving -->
   <joint name="HeadYaw" type="revolute">
     <parent link="base_link"/>
@@ -141,7 +150,7 @@
   <transmission name="tran1">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="HeadYaw">
-            <hardwareInterface>EffortJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
         </joint>
         <actuator name="motor1">
             <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
@@ -156,6 +165,18 @@
     <axis xyz="0 1 0"/>
     <limit effort="1000" lower="-0.261799" upper="0.436332" velocity="30"/>
   </joint>
+
+  <transmission name="tran2">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="HeadPitch">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor2">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+  </transmission>
+
 
   <!-- Right Arm -->
   <link name="RightShoulderPitch">
