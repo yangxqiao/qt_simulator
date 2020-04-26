@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
-<robot name="qtrobot">
+  <sdf version='1.4'>
+    <model name="qtrobot">
+      <static>false</static>
+<!--<robot name="qtrobot">-->
 
   <material name="white">
     <color rgba="1 1 1 1"/>
@@ -149,6 +152,17 @@
     <axis xyz="0 1 0"/>
     <limit effort="1000" lower="-0.261799" upper="0.436332" velocity="30"/>
   </joint>
+
+  <transmission name="tran2">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="HeadPitch">
+          <hardwareInterface>EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor2">
+          <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+  </transmission>
 
   <!-- Right Arm -->
   <link name="RightShoulderPitch">
@@ -580,4 +594,6 @@
     <origin rpy="1.5708 0 1.5708" xyz="0 0.184 0"/>
   </joint>
 
-</robot>
+<!--</robot>-->
+    </model>
+</sdf>

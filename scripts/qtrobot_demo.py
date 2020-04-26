@@ -21,9 +21,9 @@ class QtrobotJointMover(object):
         # self.pub_qtrobot_roll_joint_position = rospy.Publisher('/qtrobot/roll_joint_position_controller/command',
         #                                                     Float64,
         #                                                     queue_size=1)
-        # self.pub_qtrobot_pitch_joint_position = rospy.Publisher('/qtrobot/pitch_joint_position_controller/command',
-        #                                                      Float64,
-        #                                                      queue_size=1)
+        self.pub_qtrobot_pitch_joint_position = rospy.Publisher('/qtrobot/pitch_joint_position_controller/command',
+                                                             Float64,
+                                                             queue_size=1)
         self.pub_qtrobot_yaw_joint_position = rospy.Publisher('/qtrobot/yaw_joint_position_controller/command',
                                                            Float64,
                                                            queue_size=1)
@@ -39,15 +39,15 @@ class QtrobotJointMover(object):
 
         self.qtrobot_joint_dictionary = dict(zip(qtrobot_joints_data.name, qtrobot_joints_data.position))
 
-    def move_qtrobot_all_joints(self, yaw):
+    def move_qtrobot_all_joints(self, pitch, yaw):
         # angle_roll = Float64()
         # angle_roll.data = roll
-        # angle_pitch = Float64()
-        # angle_pitch.data = pitch
+        angle_pitch = Float64()
+        angle_pitch.data = pitch
         angle_yaw = Float64()
         angle_yaw.data = yaw
         # self.pub_qtrobot_roll_joint_position.publish(angle_roll)
-        # self.pub_qtrobot_pitch_joint_position.publish(angle_pitch)
+        self.pub_qtrobot_pitch_joint_position.publish(angle_pitch)
         self.pub_qtrobot_yaw_joint_position.publish(angle_yaw)
 
     def move_qtrobot_roll_joint(self, position):
@@ -169,57 +169,67 @@ class QtrobotJointMover(object):
 
 
 
-    def qtrobot_movement_look(self, yaw):
+    def qtrobot_movement_look(self, pitch, yaw):
         """
         Make qtrobot look down
         :return:
         """
         check_rate = 5.0
         # position_roll = roll
-        # position_pitch = pitch
+        position_pitch = pitch
         position_yaw = yaw
 
         # similar_roll = False
-        # similar_pitch = False
+        similar_pitch = False
         similar_yaw = False
         rate = rospy.Rate(check_rate)
-        while not (similar_yaw):
-            self.move_qtrobot_all_joints(position_yaw)
+        while not (similar_yaw and similar_pitch):
+            self.move_qtrobot_all_joints(position_pitch, position_yaw)
             # similar_roll = self.qtrobot_check_continuous_joint_value(joint_name="roll_joint", value=position_roll)
-            # similar_pitch = self.qtrobot_check_continuous_joint_value(joint_name="HeadPitch", value=position_pitch)
+            similar_pitch = self.qtrobot_check_continuous_joint_value(joint_name="HeadPitch", value=position_pitch)
             similar_yaw = self.qtrobot_check_continuous_joint_value(joint_name="HeadYaw", value=position_yaw)
             rate.sleep()
 
 
     def qtrobot_lookup(self):
 
-        self.qtrobot_movement_look(roll=0.0,pitch=0.3,yaw=1.57)
+        self.qtrobot_movement_look(pitch=0, yaw=0)
 
     def qtrobot_lookdown(self):
 
-        self.qtrobot_movement_look(roll=0.0,pitch=0.0,yaw=1.57)
+        self.qtrobot_movement_look(pitch=3.14, yaw=0)
 
-    def qtrobot_movement_laugh(self, set_rpy=False, yaw=1.57, n_giggle=15):
+    def qtrobot_lookright(self):
+
+        self.qtrobot_movement_look(pitch=0.0, yaw=3.14)
+
+    def qtrobot_lookleft(self):
+
+        self.qtrobot_movement_look(pitch=0.0, yaw=0)
+
+    # def qtrobot_movement_laugh(self, set_rpy=False, pitch=1.57, yaw=1.57, n_giggle=15):
+    def qtrobot_movement_laugh(self, set_rpy=False, pitch=1.57, yaw=0, n_giggle=15):
         """
         Giggle in a given pitch yaw configuration
         :return:
         """
         # position_roll = roll
-        # position_pitch = pitch
+        position_pitch = pitch
         position_yaw = yaw
         for repetitions in range(n_giggle):
             if set_rpy:
-                self.move_qtrobot_all_joints(position_yaw)
+                self.move_qtrobot_all_joints(position_pitch, position_yaw)
             else:
                 self.move_qtrobot_yaw_joint(position_yaw)
             time.sleep(0.1)
             position_yaw *= -1
 
     def qtrobot_moverandomly(self):
-        roll = random.uniform(-0.15, 0.15)
-        pitch = random.uniform(0.0, 0.3)
-        yaw = random.uniform(0.0, 2*pi)
-        self.qtrobot_movement_look(roll, pitch, yaw)
+        # roll = random.uniform(-0.15, 0.15)
+        pitch = random.uniform(-0.15, 0.15)
+        # yaw = random.uniform(0.0, 2*pi)
+        yaw = random.uniform(0.0, 0.0)
+        self.qtrobot_movement_look(pitch, yaw)
 
     def movement_random_loop(self):
         """
@@ -227,9 +237,17 @@ class QtrobotJointMover(object):
         :return:
         """
         rospy.loginfo("Start Moving Qtrobot...")
+
         while not rospy.is_shutdown():
+            # for i in range(10):
+            #     self.qtrobot_lookup()
+            #     self.qtrobot_lookdown()
+            for i in range(10):
+                self.qtrobot_lookright()
+                self.qtrobot_lookleft()
+
             # self.qtrobot_moverandomly()
-            self.qtrobot_movement_laugh()
+            # self.qtrobot_movement_laugh()
 
 
 if __name__ == "__main__":
